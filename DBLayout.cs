@@ -14,11 +14,13 @@ public class DBLayout
     private string connectionString; //строка соединения
 
     private MySqlConnection mySqlConnection;
-
+    
+    //Добавить описание ко всем методам. Почитать статью об этом - https://habr.com/ru/post/41514/
     public DBLayout()
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         this.connectionString = $"Database={database};Datasource={host};User={user};Password={password}";
+        //Изучить какие бывают Exception и добавить try catch в соответствии с этими исключениями (ошибки логировать в файл)
         this.mySqlConnection = new MySqlConnection(connectionString);
     }
 
@@ -29,7 +31,7 @@ public class DBLayout
         MySqlCommand query = mySqlConnection.CreateCommand();
         query.CommandText = $"SELECT * FROM {tableName}";
 
-//Открываем поток подключения к базе данных
+        //Открываем поток подключения к базе данных
         try
         {
             mySqlConnection.Open();
@@ -41,7 +43,7 @@ public class DBLayout
         }
 
 
-//Создаем объект для чтения данных из базы
+        //Создаем объект для чтения данных из базы
         MySqlDataReader result = query.ExecuteReader();
         
         int i = 0;
@@ -67,6 +69,7 @@ public class DBLayout
         return resultList;
     }
 
+    //Этот метод можно сделать статическим
     public bool compareAll(List <Dictionary<string, string>> resultList, string login, string password)
     {
         foreach (var item in resultList)
@@ -77,6 +80,7 @@ public class DBLayout
                 {
                     continue;
                 }
+                //Неверная логика (переделать)
                 if (innerItem.Key == "login")
                 {
                     if (innerItem.Value == login)
@@ -88,6 +92,7 @@ public class DBLayout
                 {
                     if (innerItem.Value == password)
                     {
+                        //Не использовать методы вывода в консоль в данном классе (класс должен быть независимым от метода ввода и вывода)
                         Console.WriteLine("Успешный вход");
                         return true;
                     }
@@ -132,6 +137,7 @@ public class DBLayout
                 } 
                 if (innerItem.Key == "login")
                 {
+                    //неверная логика (при такой логике будет регистрировать пользователей с совпадающими логинами)
                     if (innerItem.Value == login)
                     {
                         return true;

@@ -3,6 +3,8 @@ using ConsoleApp3;
 using MySql.Data.MySqlClient;
 
 
+//Красиво обернуть в отдельный класс а не колхозить в Program.cs
+
 DBLayout connection = new DBLayout();
 var result = connection.getAll("users");
 Console.WriteLine("Введите логин и пароль");
@@ -14,6 +16,8 @@ if(!connection.compareAll(result, comparerLogin, comparerPassword))
     Console.WriteLine("Неправильный логин и пароль. Нужно пройти регистрацию");
 }
 Console.WriteLine("--------------Регистрация--------------");
+
+//Нет проверки на введённые данные
 Console.WriteLine("Введите логин");
 string loginProfile = Console.ReadLine();
 Console.WriteLine("Введите пароль");
